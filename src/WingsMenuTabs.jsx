@@ -8,7 +8,7 @@ export default function WingsMenuTabs() {
   const [activeTab, setActiveTab] = useState('Alitas');
 
   const tabs = {
-    'Alitas': alitas, 'Tenders': tenders, 'Boneless': boneless, 'Papas': papas, 'Combos': combos,
+    'Alitas': alitas, 'Tenders': tenders, /*'Boneless': boneless,*/ 'Papas': papas, /*'Combos': combos,*/
   };
 
   return (

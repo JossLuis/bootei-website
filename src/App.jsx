@@ -1,6 +1,7 @@
-// Archivo: App.jsx (COMPLETO Y ACTUALIZADO)
+// Archivo: App.jsx (Actualizado para redirigir a /wings)
 
-import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
+// --- CAMBIO 1: Importar 'Navigate' de react-router-dom ---
+import { BrowserRouter as Router, Routes, Route, useLocation, Navigate } from 'react-router-dom';
 import CartIcon from './CartIcon';
 import CartPanel from './CartPanel';
 import Welcome from './Welcome';
@@ -12,17 +13,15 @@ import { useState } from 'react';
 function AppContent() {
   const [showCart, setShowCart] = useState(false);
   const location = useLocation();
-  const isWelcomePage = location.pathname === '/';
-  // --- CAMBIO 1: Identificar si estamos en la página Ensamble ---
-  const isEnsamblePage = location.pathname === '/ensamble'; 
+  const isEnsamblePage = location.pathname === '/ensamble';
+  
+  // Ya no necesitamos 'isWelcomePage' porque estamos redirigiendo.
+  // La lógica del carrito ahora es más simple.
+  const shouldShowCart = !isEnsamblePage;
 
   const handleCartClick = () => {
     setShowCart(!showCart);
   };
-
-  // --- CAMBIO 2: Modificar la condición para mostrar el carrito ---
-  // Ahora solo se muestra si NO es la página de bienvenida Y NO es la página de Ensamble.
-  const shouldShowCart = !isWelcomePage && !isEnsamblePage;
 
   return (
     <div className="relative">
@@ -30,7 +29,11 @@ function AppContent() {
       {shouldShowCart && showCart && <CartPanel onClose={() => setShowCart(false)} />}
 
       <Routes>
-        <Route path="/" element={<Welcome />} />
+        {/* --- CAMBIO 2: La ruta principal ahora redirige a /wings --- */}
+        {/* ANTES era: <Route path="/" element={<Welcome />} /> */}
+        <Route path="/" element={<Navigate to="/wings" replace />} />
+
+        {/* El resto de la estructura se mantiene intacta */}
         <Route element={<MainLayout />}>
           <Route path="/wings" element={<WingsMenuTabs />} />
           <Route path="/ensamble" element={<Ensamble />} />
